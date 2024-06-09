@@ -11,6 +11,9 @@ namespace CrudFornecedores.API.Configuration
         {
             services.AddDbContext<FornecedoresProdutosContext>(
                   options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddSwaggerConfig();
+
             services.Configure<ApiBehaviorOptions>(options =>
             {
                 options.SuppressModelStateInvalidFilter = true;
