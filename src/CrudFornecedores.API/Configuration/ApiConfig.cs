@@ -14,6 +14,7 @@ namespace CrudFornecedores.API.Configuration
 
             services.AddSwaggerConfig();
 
+
             services.Configure<ApiBehaviorOptions>(options =>
             {
                 options.SuppressModelStateInvalidFilter = true;

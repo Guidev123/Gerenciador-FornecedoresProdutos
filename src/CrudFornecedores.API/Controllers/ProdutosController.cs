@@ -18,9 +18,9 @@ namespace CrudFornecedores.API.Controllers
         private readonly IProdutoService _produtoService;
         private readonly IMapper _mapper;
 
-        public ProdutosController(INotificador notificador, 
-                                  IProdutoRepository produtoRepository, 
-                                  IProdutoService produtoService, 
+        public ProdutosController(INotificador notificador,
+                                  IProdutoRepository produtoRepository,
+                                  IProdutoService produtoService,
                                   IMapper mapper) : base(notificador)
         {
             _produtoRepository = produtoRepository;
@@ -45,39 +45,39 @@ namespace CrudFornecedores.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<ProdutoDTO>> Adicionar(ProdutoDTO produtoViewModel)
+        public async Task<ActionResult<ProdutoDTO>> Adicionar(ProdutoDTO produtoDTO)
         {
             if (!ModelState.IsValid) return CustomResponse(ModelState);
 
-            var imagemNome = Guid.NewGuid() + "_" + produtoViewModel.Imagem;
-            if (!UploadArquivo(produtoViewModel.ImagemUpload, imagemNome))
+            var imagemNome = Guid.NewGuid() + "_" + produtoDTO.Imagem;
+            if (!UploadArquivo(produtoDTO.ImagemUpload, imagemNome))
             {
-                return CustomResponse(produtoViewModel);
+                return CustomResponse(produtoDTO);
             }
 
-            produtoViewModel.Imagem = imagemNome;
-            await _produtoService.Adicionar(_mapper.Map<Produto>(produtoViewModel));
+            produtoDTO.Imagem = imagemNome;
+            await _produtoService.Adicionar(_mapper.Map<Produto>(produtoDTO));
 
-            return CustomResponse(produtoViewModel);
+            return CustomResponse(produtoDTO);
         }
 
         [HttpPut("{id:guid}")]
-        public async Task<IActionResult> Atualizar(Guid id, ProdutoDTO produtoViewModel)
+        public async Task<IActionResult> Atualizar(Guid id, ProdutoDTO produtoDTO)
         {
-            if (id != produtoViewModel.Id)
+            if (id != produtoDTO.Id)
             {
                 NotificarErro("Os ids informados não são iguais!");
                 return CustomResponse();
             }
 
             var produtoAtualizacao = await ObterProduto(id);
-            produtoViewModel.Imagem = produtoAtualizacao.Imagem;
+            produtoDTO.Imagem = produtoAtualizacao.Imagem;
             if (!ModelState.IsValid) return CustomResponse(ModelState);
 
-            if (produtoViewModel.ImagemUpload != null)
+            if (produtoDTO.ImagemUpload != null)
             {
-                var imagemNome = Guid.NewGuid() + "_" + produtoViewModel.Imagem;
-                if (!UploadArquivo(produtoViewModel.ImagemUpload, imagemNome))
+                var imagemNome = Guid.NewGuid() + "_" + produtoDTO.Imagem;
+                if (!UploadArquivo(produtoDTO.ImagemUpload, imagemNome))
                 {
                     return CustomResponse(ModelState);
                 }
@@ -85,42 +85,15 @@ namespace CrudFornecedores.API.Controllers
                 produtoAtualizacao.Imagem = imagemNome;
             }
 
-            produtoAtualizacao.Nome = produtoViewModel.Nome;
-            produtoAtualizacao.Descricao = produtoViewModel.Descricao;
-            produtoAtualizacao.Valor = produtoViewModel.Valor;
-            produtoAtualizacao.Ativo = produtoViewModel.Ativo;
+            produtoAtualizacao.Nome = produtoDTO.Nome;
+            produtoAtualizacao.Descricao = produtoDTO.Descricao;
+            produtoAtualizacao.Valor = produtoDTO.Valor;
+            produtoAtualizacao.Ativo = produtoDTO.Ativo;
 
             await _produtoService.Atualizar(_mapper.Map<Produto>(produtoAtualizacao));
 
-            return CustomResponse(produtoViewModel);
+            return CustomResponse(produtoDTO);
         }
-
-        [HttpPost("Adicionar")]
-        public async Task<ActionResult<ProdutoDTO>> AdicionarAlternativo(ProdutoImagemDTO produtoViewModel)
-        {
-            if (!ModelState.IsValid) return CustomResponse(ModelState);
-
-            var imgPrefixo = Guid.NewGuid() + "_";
-            if (!await UploadArquivoAlternativo(produtoViewModel.ImagemUpload, imgPrefixo))
-            {
-                return CustomResponse(ModelState);
-            }
-
-            produtoViewModel.Imagem = imgPrefixo + produtoViewModel.ImagemUpload.FileName;
-            await _produtoService.Adicionar(_mapper.Map<Produto>(produtoViewModel));
-
-            return CustomResponse(produtoViewModel);
-        }
-
-
-        [RequestSizeLimit(40000000)]
-        //[DisableRequestSizeLimit]
-        [HttpPost("imagem")]
-        public ActionResult AdicionarImagem(IFormFile file)
-        {
-            return Ok(file);
-        }
-
 
         [HttpDelete("{id:guid}")]
         public async Task<ActionResult<ProdutoDTO>> Excluir(Guid id)
@@ -144,7 +117,7 @@ namespace CrudFornecedores.API.Controllers
 
             var imageDataByteArray = Convert.FromBase64String(arquivo);
 
-            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/app/demo-webapi/src/assets", imgNome);
+            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/imagem", imgNome);
 
             if (System.IO.File.Exists(filePath))
             {
@@ -156,31 +129,6 @@ namespace CrudFornecedores.API.Controllers
 
             return true;
         }
-        private async Task<bool> UploadArquivoAlternativo(IFormFile arquivo, string imgPrefixo)
-        {
-            if (arquivo == null || arquivo.Length == 0)
-            {
-                NotificarErro("Forneça uma imagem para este produto!");
-                return false;
-            }
-
-            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/app/demo-webapi/src/assets", imgPrefixo + arquivo.FileName);
-
-            if (System.IO.File.Exists(path))
-            {
-                NotificarErro("Já existe um arquivo com este nome!");
-                return false;
-            }
-
-            using (var stream = new FileStream(path, FileMode.Create))
-            {
-                await arquivo.CopyToAsync(stream);
-            }
-
-            return true;
-        }
-
-
         private async Task<ProdutoDTO> ObterProduto(Guid id)
         {
             return _mapper.Map<ProdutoDTO>(await _produtoRepository.ObterProdutoFornecedor(id));

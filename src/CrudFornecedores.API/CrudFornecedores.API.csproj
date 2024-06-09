@@ -25,4 +25,8 @@
     <ProjectReference Include="..\CrudFornecedores.Infra\CrudFornecedores.Infra.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\imagem\" />
+  </ItemGroup>
+
 </Project>

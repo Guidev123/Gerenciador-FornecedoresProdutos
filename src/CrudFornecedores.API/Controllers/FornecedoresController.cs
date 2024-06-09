@@ -44,29 +44,29 @@ namespace CrudFornecedores.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<FornecedorDTO>> Adicionar(FornecedorDTO fornecedorViewModel)
+        public async Task<ActionResult<FornecedorDTO>> Adicionar(FornecedorDTO fornecedorDTO)
         {
             if (!ModelState.IsValid) return CustomResponse(ModelState);
 
-            await _fornecedorService.Adicionar(_mapper.Map<Fornecedor>(fornecedorViewModel));
+            await _fornecedorService.Adicionar(_mapper.Map<Fornecedor>(fornecedorDTO));
 
-            return CustomResponse(fornecedorViewModel);
+            return CustomResponse(fornecedorDTO);
         }
 
         [HttpPut("{id:guid}")]
-        public async Task<ActionResult<FornecedorDTO>> Atualizar(Guid id, FornecedorDTO fornecedorViewModel)
+        public async Task<ActionResult<FornecedorDTO>> Atualizar(Guid id, FornecedorDTO fornecedorDTO)
         {
-            if (id != fornecedorViewModel.Id)
+            if (id != fornecedorDTO.Id)
             {
-                NotificarErro("O id informado não é o mesmo que foi passado na query");
-                return CustomResponse(fornecedorViewModel);
+                NotificarErro("O id informado é diferente do que foi passado na query");
+                return CustomResponse(fornecedorDTO);
             }
 
             if (!ModelState.IsValid) return CustomResponse(ModelState);
 
-            await _fornecedorService.Atualizar(_mapper.Map<Fornecedor>(fornecedorViewModel));
+            await _fornecedorService.Atualizar(_mapper.Map<Fornecedor>(fornecedorDTO));
 
-            return CustomResponse(fornecedorViewModel);
+            return CustomResponse(fornecedorDTO);
         }
 
         [HttpDelete("{id:guid}")]
@@ -89,19 +89,19 @@ namespace CrudFornecedores.API.Controllers
 
 
         [HttpPut("atualizar-endereco/{id:guid}")]
-        public async Task<IActionResult> AtualizarEndereco(Guid id, EnderecoDTO enderecoViewModel)
+        public async Task<IActionResult> AtualizarEndereco(Guid id, EnderecoDTO enderecoDTO)
         {
-            if (id != enderecoViewModel.Id)
+            if (id != enderecoDTO.Id)
             {
                 NotificarErro("O id informado não é o mesmo que foi passado na query");
-                return CustomResponse(enderecoViewModel);
+                return CustomResponse(enderecoDTO);
             }
 
             if (!ModelState.IsValid) return CustomResponse(ModelState);
 
-            await _fornecedorService.AtualizarEndereco(_mapper.Map<Endereco>(enderecoViewModel));
+            await _fornecedorService.AtualizarEndereco(_mapper.Map<Endereco>(enderecoDTO));
 
-            return CustomResponse(enderecoViewModel);
+            return CustomResponse(enderecoDTO);
         }
 
         [HttpGet("fornecedores-produtos-endereco/{id}")]
