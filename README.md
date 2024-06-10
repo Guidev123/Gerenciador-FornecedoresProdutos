@@ -12,4 +12,5 @@
 
 <h3>Arquitetura: </h3>
 
-![Screenshot_11](https://github.com/Guidev123/CrudFornecedores/assets/155389912/4f7e117b-0956-491a-ab6f-4ae421d7eb97)
+![Screenshot_14](https://github.com/Guidev123/CrudFornecedores/assets/155389912/99daf502-c675-44dd-8985-e70912bc07cd)
+
