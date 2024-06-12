@@ -13,7 +13,6 @@ namespace CrudFornecedores.API.Configuration
                   options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
             services.AddSwaggerConfig();
-            
 
             services.Configure<ApiBehaviorOptions>(options =>
             {
@@ -45,17 +44,13 @@ namespace CrudFornecedores.API.Configuration
 
             app.UseCors("Total");
 
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
         }
-        public static void UseAuthConfiguration(this IApplicationBuilder app)
-        {
-            app.UseAuthentication();
-            app.UseAuthorization();
-        }
-
     }
 }

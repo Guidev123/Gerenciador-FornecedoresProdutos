@@ -6,11 +6,13 @@ using AutoMapper;
 using CrudFornecedores.API.DTO;
 using CrudFornecedores.Domain.Intefaces;
 using CrudFornecedores.Domain.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CrudFornecedores.API.Controllers
 {
+    [Authorize]
     [Route("api/produtos")]
     public class ProdutosController : MainController
     {

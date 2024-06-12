@@ -10,7 +10,7 @@ namespace CrudFornecedores.Infra.Context
 {
     public class FornecedoresProdutosContext : DbContext
     {
-        public FornecedoresProdutosContext(DbContextOptions options) : base(options) { }
+        public FornecedoresProdutosContext(DbContextOptions<FornecedoresProdutosContext> options) : base(options) { }
 
         public DbSet<Produto> Produtos { get; set; }
         public DbSet<Endereco> Enderecos { get; set; }

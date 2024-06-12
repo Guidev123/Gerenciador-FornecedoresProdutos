@@ -14,6 +14,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddApiConfig(builder.Configuration);
 builder.Services.AddIdentity(builder.Configuration);
+builder.Services.AddJwtConfiguration(builder.Configuration);
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.ResolveDependencies();
 var app = builder.Build();
@@ -24,9 +25,5 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 app.UseApiConfig(app.Environment);
-
-
-app.UseAuthConfiguration();
-app.MapControllers();
 
 app.Run();
