@@ -111,19 +111,19 @@ namespace CrudFornecedores.API.Controllers
 
         private bool UploadArquivo(string arquivo, string imgNome)
         {
+            var imageDataByteArray = Convert.FromBase64String(arquivo);
+
             if (string.IsNullOrEmpty(arquivo))
             {
-                NotificarErro("Forneça uma imagem para este produto!");
+                NotificarErro("Forneça uma imagem para este produto");
                 return false;
             }
-
-            var imageDataByteArray = Convert.FromBase64String(arquivo);
 
             var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/imagem", imgNome);
 
             if (System.IO.File.Exists(filePath))
             {
-                NotificarErro("Já existe um arquivo com este nome!");
+                NotificarErro("Já existe um arquivo com este nome");
                 return false;
             }
 
