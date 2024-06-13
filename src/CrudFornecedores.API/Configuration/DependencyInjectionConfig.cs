@@ -1,4 +1,5 @@
-﻿using CrudFornecedores.Domain.Intefaces;
+﻿using CrudFornecedores.API.Extensions;
+using CrudFornecedores.Domain.Intefaces;
 using CrudFornecedores.Domain.Notificacoes;
 using CrudFornecedores.Domain.Services;
 using CrudFornecedores.Infra.Context;
@@ -19,6 +20,10 @@ namespace CrudFornecedores.API.Configuration
             services.AddScoped<INotificador, Notificador>();
             services.AddScoped<IFornecedorService, FornecedorService>();
             services.AddScoped<IProdutoService, ProdutoService>();
+
+            // USER
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddScoped<IUser, AspNetUser>();
 
             return services;
         }

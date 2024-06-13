@@ -11,11 +11,23 @@ namespace CrudFornecedores.API.Controllers
     public abstract class MainController : ControllerBase
     {
         private readonly INotificador _notificador;
-        protected MainController(INotificador notificador)
+        public readonly IUser AppUser;
+
+        protected Guid UserId { get; set; }
+        protected bool AuthenticatedUser {  get; set; }
+
+        protected MainController(INotificador notificador, IUser appUser)
         {
             _notificador = notificador;
+            AppUser = appUser;
+
+            if (appUser.IsAuthenticated())
+            {
+                UserId = appUser.GetUserId();
+                AuthenticatedUser = true;
+            }
         }
-        
+
         protected bool OperacaoValida()
         {
             return !_notificador.TemNotificacao();
