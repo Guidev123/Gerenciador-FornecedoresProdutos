@@ -1,7 +1,7 @@
 # CrudFornecedores
 
 
-<p><strong>Bem-vindo a API CRUD de fornecedores e produtos. Este projeto foi desenvolvido utilizando princípios de Clean Code, SOLID e Domain Driven Design (DDD), empregando as tecnologias .NET 8.0, SQL Server e ASP.NET Core.</strong></p>
+<p><strong>API de gerenciamento de fornecedores e produtos. Este projeto foi desenvolvido utilizando princípios de Clean Code, SOLID e Domain Driven Design (DDD), empregando as tecnologias .NET 8.0, SQL Server e ASP.NET Core.</strong></p>
 
  <h2>Tecnologias Utilizadas</h2>
     <ul>
