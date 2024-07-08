@@ -32,9 +32,9 @@ namespace CrudFornecedores.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<ProdutoDTO>> ObterTodos()
+        public async Task<ActionResult<IEnumerable<ProdutoDTO>>> ObterTodos()
         {
-            return _mapper.Map<IEnumerable<ProdutoDTO>>(await _produtoRepository.ObterProdutosFornecedores());
+            return CustomResponse(_mapper.Map<IEnumerable<ProdutoDTO>>(await _produtoRepository.ObterProdutosFornecedores()));
         }
 
         [HttpGet("{id:guid}")]
@@ -42,9 +42,9 @@ namespace CrudFornecedores.API.Controllers
         {
             var produtoViewModel = await ObterProduto(id);
 
-            if (produtoViewModel == null) return NotFound();
+            if (produtoViewModel == null) return CustomResponse();
 
-            return produtoViewModel;
+            return CustomResponse(produtoViewModel);
         }
 
         [HttpPost]
@@ -103,14 +103,14 @@ namespace CrudFornecedores.API.Controllers
         {
             var produto = await ObterProduto(id);
 
-            if (produto == null) return NotFound();
+            if (produto == null) return CustomResponse();
 
             await _produtoService.Remover(id);
 
             return CustomResponse(produto);
         }
 
-        private bool UploadArquivo(string arquivo, string imgNome)
+        private bool UploadArquivo(string? arquivo, string imgNome)
         {
             var imageDataByteArray = Convert.FromBase64String(arquivo);
 
