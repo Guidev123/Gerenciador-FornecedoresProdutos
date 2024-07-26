@@ -2,6 +2,9 @@
     <h1>API de Gerenciamento de Fornecedores e Produtos</h1>
 
    <p>Esta é uma API para gerenciamento de fornecedores e produtos, com sistema de autenticação usando Identity e JWT.</p>
+   <h2>Video Demo da API</h2>
+
+ https://www.youtube.com/watch?v=FkuR7WBtcX4
 
    <h2>Tecnologias Utilizadas</h2>
     <ul>
@@ -39,8 +42,5 @@
         <li>O nome da imagem é armazenado na propriedade Imagem.</li>
     </ul>
 
-   <h2>Video Demo da API</h2>
-
- https://www.youtube.com/watch?v=FkuR7WBtcX4
    
 </body>
