@@ -31,6 +31,7 @@
         <li>SOLID</li>
         <li>Domain Driven Design (DDD)</li>
         <li>Clean Code</li>
+        <li>Clean Architecture</li>
     </ul>
     <p>Também foi aplicado o padrão Repository e eventos para armazenamento e exibição de erros.</p>
 
